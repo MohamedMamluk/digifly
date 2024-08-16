@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import '../globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { cn } from '@/lib/utils';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -21,10 +24,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} style={{ direction: locale == 'ar' ? 'rtl' : 'ltr' }}>
-      <body className={inter.className}>
-        {' '}
+      <body className={cn(inter.className, 'px-2 max-w-screen-xl mx-auto')}>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <ReactQueryProvider>{children}</ReactQueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>
