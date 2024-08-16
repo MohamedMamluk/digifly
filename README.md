@@ -2,6 +2,8 @@
 
 This repository contains the source code for the Frontend Development Assessment project. The application is built using Next.js, TypeScript, Redux Toolkit, TailwindCSS, i18n/next-intl, and Leaflet, following the provided specifications. The project is fully responsive and supports both Arabic and English languages.
 
+## A live version of the project can be seen [here](https://digifly-five.vercel.app)
+
 ## Getting Started
 
 Follow the steps below to set up and run the project locally.
