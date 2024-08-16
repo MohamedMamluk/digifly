@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import '../globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { cn } from '@/lib/utils';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
-const inter = Inter({ subsets: ['latin'] });
+import Footer from '@/components/footer';
+import Navbar from '@/components/navbar';
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,10 +27,18 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} style={{ direction: locale == 'ar' ? 'rtl' : 'ltr' }}>
-      <body className={cn(inter.className, 'px-5 max-w-screen-xl mx-auto')}>
+    <html
+      lang={locale}
+      dir={locale == 'ar' ? 'rtl' : 'ltr'}
+      // style={{ direction: locale == 'ar' ? 'rtl' : 'ltr' }}
+    >
+      <body className={cn(poppins.className, '')}>
         <NextIntlClientProvider messages={messages}>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <div id='layout_container' className='px-5 max-w-screen-xl mx-auto'>
+            <Navbar />
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </div>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

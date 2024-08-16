@@ -14,7 +14,9 @@
     "mobile_number": "Mobile Number",
     "email": "Email",
     "submit": "Submit",
-    "results": "Results"
+    "results": "Results",
+    "next": "Next",
+    "previous": "Previous"
   },
   "task_2": {
     "title": "Part 2",
@@ -25,5 +27,9 @@
   "task_3": {
     "title": "Part 3",
     "description": "Implement a text editor that precisely replicates the UI styles provided. It's essential to create the undo and redo functionalities from scratch, along with two additional features of your choice. You may use any package, but creating these functionalities from scratch will be advantageous. Ensure that all text editor functionalities are operational."
+  },
+  "footer": {
+    "copyright": "All Rights Reserved",
+    "company": "Digifly"
   }
 }

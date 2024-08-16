@@ -45,9 +45,9 @@ const UsersTable = () => {
   console.log(data?.slice(page - 1 * usersPerPage, page * usersPerPage));
 
   return (
-    <div className={cn('flex-1 flex-basis-350')}>
-      <h1 className='text-digiPurple font-bold'>{t('results')}:</h1>
-      <Table>
+    <div className={cn('flex-1 flex-basis-350 shadow-md py-2')}>
+      <h1 className='text-digiPurple font-bold mb-4'>{t('results')}:</h1>
+      <Table className=''>
         <TableHeader>
           <TableRow>
             <TableHead>{t('first_name')}</TableHead>
@@ -79,7 +79,7 @@ const UsersTable = () => {
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              href='#'
+              translation={t}
               onClick={() => {
                 setPage((current) => {
                   if (current > 1) {
@@ -91,16 +91,17 @@ const UsersTable = () => {
               }}
             />
           </PaginationItem>
-          {Array.from(Array(numberOfPages).keys()).map((page) => {
+          {Array.from(Array(numberOfPages).keys()).map((pageNumber) => {
             return (
-              <PaginationItem key={page}>
+              <PaginationItem key={pageNumber}>
                 <PaginationLink
                   href='#'
                   onClick={() => {
-                    setPage(page + 1);
+                    setPage(pageNumber + 1);
                   }}
+                  isActive={page == pageNumber + 1}
                 >
-                  {page + 1}
+                  {pageNumber + 1}
                 </PaginationLink>
               </PaginationItem>
             );
@@ -108,7 +109,7 @@ const UsersTable = () => {
 
           <PaginationItem>
             <PaginationNext
-              href='#'
+              translation={t}
               onClick={() => {
                 setPage((current) => {
                   if (current < numberOfPages) {
