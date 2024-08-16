@@ -1,7 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://unpkg.com/leaflet@1.0.1/dist/leaflet.css');
+.leaflet-container {
+  height: 650px;
+  object-fit: cover;
 
+  mask-image: radial-gradient(
+    ellipse 70% 70% at center,
+    black 30%,
+    transparent 80%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 70% at center,
+    black 30%,
+    transparent 80%
+  );
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #6d5cbc !important;
+}
 @layer base {
   :root {
     --dark-1: 210 7% 17%;
