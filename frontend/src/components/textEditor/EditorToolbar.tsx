@@ -1,4 +1,4 @@
-import { Quill } from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import { Button } from '../ui/button';
 
 const CustomUndo = () => (
@@ -22,9 +22,12 @@ const CustomRedo = () => (
 );
 
 function undoChange() {
+  // @ts-ignore
   this.quill.history.undo();
 }
 function redoChange() {
+  // @ts-ignore
+
   this.quill.history.redo();
 }
 
