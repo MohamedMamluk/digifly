@@ -1,14 +1,13 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import Navbar from '@/components/navbar';
+import UsersSection from '@/components/users';
 
 export default function Home() {
-  const t = useTranslations('task_1');
-
   return (
     <main className=' min-h-screen'>
       <Navbar />
-      {t('first_name')}
+      <UsersSection />
     </main>
   );
 }
