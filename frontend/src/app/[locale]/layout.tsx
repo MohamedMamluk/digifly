@@ -24,7 +24,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} style={{ direction: locale == 'ar' ? 'rtl' : 'ltr' }}>
-      <body className={cn(inter.className, 'px-2 max-w-screen-xl mx-auto')}>
+      <body className={cn(inter.className, 'px-5 max-w-screen-xl mx-auto')}>
         <NextIntlClientProvider messages={messages}>
           <ReactQueryProvider>{children}</ReactQueryProvider>
         </NextIntlClientProvider>
