@@ -22,28 +22,45 @@ import {
 } from '@/components/ui/table';
 import { useLocale, useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
+import { addUsers } from '@/lib/store/features/users/usersSlice';
 const UsersTable = () => {
   const t = useTranslations('task_1');
+  const dispatch = useAppDispatch();
+  const { data: userData } = useAppSelector((store) => store.users);
+
   const locale = useLocale();
   const [page, setPage] = useState(1);
-  console.log(page);
   let usersPerPage = 4;
   const { isLoading, data } = useQuery<UserResponse[]>({
     queryKey: ['todos'],
     queryFn: getUsers,
   });
+  React.useEffect(
+    function () {
+      if (data) {
+        dispatch(addUsers(data));
+      }
+    },
+    [data, dispatch]
+  );
   const numberOfPages = useMemo(
     function () {
-      if (!data) {
-        return 0;
+      if (!userData) {
+        return 1;
       }
-      return Math.ceil(data.length / usersPerPage);
+      return Math.ceil(userData.length / usersPerPage) || 1;
     },
-    [data, usersPerPage]
+    [userData, usersPerPage]
   );
-  console.log(data?.slice(page - 1 * usersPerPage, page * usersPerPage));
-
+  if (!userData || !userData.length) {
+    return (
+      <h1 className={cn('flex-1 flex-basis-350 py-2 text-center')}>
+        {t('no_users_message')}
+      </h1>
+    );
+  }
   return (
     <div className={cn('flex-1 flex-basis-350 shadow-md py-2')}>
       <h1 className='text-digiPurple font-bold mb-4'>{t('results')}:</h1>
@@ -59,20 +76,21 @@ const UsersTable = () => {
         <TableBody>
           {isLoading && <BodySkeleton />}
 
-          {data?.length &&
-            data
-              .slice((page - 1) * usersPerPage, page * usersPerPage)
-              .map((user) => (
-                <TableRow
-                  key={user.id}
-                  className={cn(locale !== 'en' && 'text-end', 'font-bold')}
-                >
-                  <TableCell>{user.FirstName}</TableCell>
-                  <TableCell>{user.LastName}</TableCell>
-                  <TableCell>{user.Phone}</TableCell>
-                  <TableCell>{user.Email}</TableCell>
-                </TableRow>
-              ))}
+          {userData?.length
+            ? userData
+                .slice((page - 1) * usersPerPage, page * usersPerPage)
+                .map((user) => (
+                  <TableRow
+                    key={user.id}
+                    className={cn(locale !== 'en' && 'text-end', 'font-bold')}
+                  >
+                    <TableCell>{user.FirstName}</TableCell>
+                    <TableCell>{user.LastName}</TableCell>
+                    <TableCell>{user.Phone}</TableCell>
+                    <TableCell>{user.Email}</TableCell>
+                  </TableRow>
+                ))
+            : null}
         </TableBody>
       </Table>
       <Pagination className='max-w-sm'>
@@ -130,19 +148,25 @@ export default UsersTable;
 
 const BodySkeleton = () => {
   return (
-    <TableRow>
-      <TableCell className=''>
-        <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
-      </TableCell>
-      <TableCell className=''>
-        <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
-      </TableCell>
-      <TableCell className=''>
-        <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
-      </TableCell>
-      <TableCell className=''>
-        <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
-      </TableCell>
-    </TableRow>
+    <>
+      {Array.from(Array(4).keys()).map((_, i) => {
+        return (
+          <TableRow key={i}>
+            <TableCell className=''>
+              <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
+            </TableCell>
+            <TableCell className=''>
+              <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
+            </TableCell>
+            <TableCell className=''>
+              <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
+            </TableCell>
+            <TableCell className=''>
+              <span className=' animate-pulse block bg-muted w-[100px] h-[20px] rounded-full'></span>
+            </TableCell>
+          </TableRow>
+        );
+      })}
+    </>
   );
 };

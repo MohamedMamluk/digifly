@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
+import StoreProvider from '@/lib/store/StateProvider';
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -27,16 +28,14 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html
-      lang={locale}
-      dir={locale == 'ar' ? 'rtl' : 'ltr'}
-      // style={{ direction: locale == 'ar' ? 'rtl' : 'ltr' }}
-    >
+    <html lang={locale} dir={locale == 'ar' ? 'rtl' : 'ltr'}>
       <body className={cn(poppins.className, '')}>
         <NextIntlClientProvider messages={messages}>
           <div id='layout_container' className='px-5 max-w-screen-xl mx-auto'>
             <Navbar />
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <ReactQueryProvider>
+              <StoreProvider>{children}</StoreProvider>
+            </ReactQueryProvider>
           </div>
           <Footer />
         </NextIntlClientProvider>

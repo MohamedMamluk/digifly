@@ -16,7 +16,8 @@
     "submit": "Submit",
     "results": "Results",
     "next": "Next",
-    "previous": "Previous"
+    "previous": "Previous",
+    "no_users_message": "There are no users Yet, start adding some."
   },
   "task_2": {
     "title": "Part 2",

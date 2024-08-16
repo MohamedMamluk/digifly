@@ -2,10 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
 import {
   Form,
   FormControl,
@@ -18,37 +16,23 @@ import { Input } from '@/components/ui/input';
 import { useMutation } from '@tanstack/react-query';
 import addUser from '@/api/mutations/addUser';
 import { queryClient } from '@/providers/ReactQueryProvider';
+import { useAppDispatch } from '@/lib/store/hooks';
+import { addSingleUser } from '@/lib/store/features/users/usersSlice';
+import { formSchema, SchemaType } from './addUserSchema';
 
-const formSchema = z.object({
-  FirstName: z.string().min(2, {
-    message: 'FirstName must be at least 2 characters.',
-  }),
-  LastName: z.string().min(2, {
-    message: 'LastName must be at least 2 characters.',
-  }),
-  Email: z.string().email({
-    message: 'Email is required.',
-  }),
-  Phone: z.string().regex(/^(010|011|012|015)\d{8}$/, {
-    message:
-      'Invalid phone number. Please enter a valid Egyptian mobile number starting with 010, 011, 012, or 015, followed by 8 digits.',
-  }),
-});
 const AddUserForm = () => {
-  const router = useRouter();
+  const dispatch = useAppDispatch();
   const t = useTranslations('task_1');
   const mutation = useMutation({
     mutationFn: addUser,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['users'] });
-
+    onSuccess: async (response) => {
+      await queryClient.invalidateQueries({ queryKey: ['users'] });
+      dispatch(addSingleUser(response.data));
       form.reset();
-      router.refresh();
     },
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<SchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       FirstName: '',
@@ -57,18 +41,15 @@ const AddUserForm = () => {
       Phone: '',
     },
   });
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: SchemaType) {
     await mutation.mutateAsync(values);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='flex-1 flex-basis-350 lg:max-w-[50%]'
+        className='flex-1 flex-basis-350 lg:max-w-[50%] space-y-4'
       >
         <div id='username' className='flex flex-wrap gap-2'>
           <FormField
