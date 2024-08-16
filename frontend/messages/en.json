@@ -21,5 +21,9 @@
     "description": "Implement a map using any library of your choice (Leaflet is recommended). Search for the coordinates of 'Digifly Company' on Google Maps, then place a tooltip at these coordinates. Ensure that the tooltip styling matches the provided design below.",
     "digi": "Digi",
     "fly": "Fly"
+  },
+  "task_3": {
+    "title": "Part 3",
+    "description": "Implement a text editor that precisely replicates the UI styles provided. It's essential to create the undo and redo functionalities from scratch, along with two additional features of your choice. You may use any package, but creating these functionalities from scratch will be advantageous. Ensure that all text editor functionalities are operational."
   }
 }
