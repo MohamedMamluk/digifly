@@ -12,6 +12,8 @@
     "first_name": "First name",
     "last_name": "Last name",
     "mobile_number": "Mobile Number",
-    "email": "Email"
+    "email": "Email",
+    "submit": "Submit",
+    "results": "Results"
   }
 }
