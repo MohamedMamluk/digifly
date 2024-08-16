@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import {
   Form,
   FormControl,
@@ -34,13 +35,16 @@ const formSchema = z.object({
   }),
 });
 const AddUserForm = () => {
+  const router = useRouter();
   const t = useTranslations('task_1');
   const mutation = useMutation({
     mutationFn: addUser,
     onSuccess: () => {
       // Invalidate and refetch
-      console.log('worked');
       queryClient.invalidateQueries({ queryKey: ['users'] });
+
+      form.reset();
+      router.refresh();
     },
   });
 

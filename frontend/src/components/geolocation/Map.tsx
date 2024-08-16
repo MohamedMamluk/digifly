@@ -13,7 +13,7 @@ const Map = () => {
   return (
     <MapContainer
       center={coords}
-      zoom={13}
+      zoom={24}
       scrollWheelZoom={false}
       className='h-[300px]'
     >
